@@ -3,31 +3,40 @@ import Input from "../Components/Input"
 import RealTimeEditor from "../Components/RealTimeEditor"
 import storageService from "../appwrite/storageService"
 import {addPostConstants} from "../utils/inputDataConstants" 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import {ToastContainer, toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import databases from "../appwrite/databaseService"
 import Button from "../Components/Button"
 import { useNavigate } from "react-router-dom"
-import { setAllPostData, setSavedBlogsData } from "../store/postSlice"
+import Compressor from 'compressorjs'
+import { setAddPostIntialState, setAllPostData, setSavedBlogsData } from "../store/postSlice"
 
 function AddPostPage(){
 
     const dispatch=useDispatch()
-    const imageRef=useRef()
-    const quillRef=useRef()
     const [isLoading,setIsLoading]=useState(false)
     const {authSlice:authValue,postSlice}=useSelector(store=>store)
     const [enteredPostData,setEnteredPostData]=useState(postSlice.addPostIntialState)
     const navigate=useNavigate()
 
+    useEffect(()=>{
+        return function(){
+            dispatch(setAddPostIntialState({title:"",featuredImage:"",content:"",status:"",slug:""}))
+        }
+    },[])
+
     async function handleSubmit(e){
         setIsLoading(true)
-        const userId=authValue.userData.userId ? authValue.userData.userId : authValue.userData.$id
-        const blogDataToSave={title:enteredPostData.title,status:enteredPostData.status,content:quillRef.current.value,userId:userId}
         e.preventDefault()
+        const blogDataToSave={title:enteredPostData.title,status:enteredPostData.status,content:enteredPostData.content,userId:authValue.userData.userId}
+        const databaseOperation=postSlice.addPostIntialState.slug ? databases.updatePost : databases.createPost
+
         try{
-            const data=await storageService.uploadFile(imageRef.current.files[0])
+            if(postSlice.addPostIntialState.featuredImage){ 
+                await storageService.deleteFile(postSlice.addPostIntialState.featuredImage)
+            }
+            const data=await storageService.uploadFile(enteredPostData.compressedImage)
             blogDataToSave.featuredImage=data.$id
         }
         catch(e){
@@ -35,9 +44,10 @@ function AddPostPage(){
            return toast.error(e.message)
         }
         try{
-            const data=await databases.createPost(enteredPostData.slug,blogDataToSave)
+            const data=await databaseOperation.call(databases,[enteredPostData.slug,blogDataToSave])
             navigate(`/post/${data.$id}`,{state:data})
-            blogDataToSave.status==="active" ? dispatch(setAllPostData({data:null,fresh:false})) : dispatch(setSavedBlogsData({data:[],fresh:false}))
+            dispatch(setAllPostData({data:null,fresh:false}))
+            dispatch(setSavedBlogsData({data:[],fresh:false}))
         }
         catch(e){
             return toast.error(e.message)
@@ -48,6 +58,7 @@ function AddPostPage(){
     }
 
     function handleChange(e){
+        if(!e.target)return setEnteredPostData({...enteredPostData,content:e})
         if(e.target.name==="title"){
             const slugValue=e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
             setEnteredPostData({...enteredPostData,[e.target.name]:e.target.value,slug:slugValue})
@@ -55,12 +66,25 @@ function AddPostPage(){
         else setEnteredPostData({...enteredPostData,[e.target.name]:e.target.value})
     }
 
+    function handleCompression(e){
+        new Compressor(e.target.files[0], {      
+            quality: 0.6,
+            mimeType:"image/jpeg",
+            success: (compressedResult) => {
+                const compressedFile=new File([compressedResult],"compressedFile")
+                setEnteredPostData({...enteredPostData,compressedImage:compressedFile})
+            },
+          })
+    }
+
     return(
         <div>
             <form onSubmit={handleSubmit}>
-                {addPostConstants.map(individualPost=><Input value={enteredPostData[individualPost.name]} eventHandler={handleChange} key={individualPost.id} {...individualPost}></Input>)}
-                <Input type="file" isRequired={true} label="Select Featured Image" inputRef={imageRef} name="featuredImage"></Input>
-                <RealTimeEditor quillRef={quillRef} initialValue={enteredPostData.content}></RealTimeEditor>
+                {!postSlice.addPostIntialState.slug &&
+                addPostConstants.map(individualPost=><Input value={enteredPostData[individualPost.name]} eventHandler={handleChange} key={individualPost.id} {...individualPost}></Input>)
+                }
+                <Input type="file" eventHandler={handleCompression} isRequired={true} label="Select Featured Image" name="featuredImage"></Input>
+                <RealTimeEditor eventHandler={handleChange} value={enteredPostData.content}></RealTimeEditor>
                 <select name="status" defaultValue={enteredPostData.status} required={true} onChange={handleChange}>
                     <option value="" hidden>Please choose an option</option>
                     <option value="active">Publish to All Posts</option>

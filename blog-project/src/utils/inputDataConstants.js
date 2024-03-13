@@ -1,4 +1,6 @@
-const loginInputData=[{id:1,placeHolder:"Enter your email address",errorName:"emailError",label:"Email",type:"email",name:"email",isRequired:false},{id:2,placeHolder:"Enter your password",name:"password",errorName:"passwordError",label:"Password",type:"password",isRequired:false}]
+import { inputStylingTailwindClasses } from "./constants"
+
+const loginInputData=[{id:1,errorName:"emailError",label:"Email",type:"email",name:"email",isRequired:false,inputStyling:inputStylingTailwindClasses},{id:2,name:"password",errorName:"passwordError",label:"Password",type:"password",isRequired:false,inputStyling:inputStylingTailwindClasses}]
 
 const signUpInputData=[{id:1,placeHolder:"Enter user name here",errorName:"userNameError",label:"User Name",name:"userName",type:"text",isRequired:true,errorName:"userNameError"},{id:2,placeHolder:"Enter your email address",errorName:"emailError",label:"Email",type:"email",name:"email",errorName:"emailError",isRequired:false},{id:3,placeHolder:"Enter your password",errorName:"passwordError",label:"Password",errorName:"passwordError",name:"password",type:"password",isRequired:false}]
 

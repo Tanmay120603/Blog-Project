@@ -1,8 +1,8 @@
 import { ImSpinner8 } from "react-icons/im";
 
-function Button({text,disabled,loading,eventHandler}){
+function Button({text,disabled,loading,eventHandler,stylingClasses=""}){
     return(
-        <button disabled={disabled} onClick={eventHandler}>{loading ? <ImSpinner8 className="animate-spin" /> : text}</button>
+        <button className={stylingClasses} disabled={disabled} onClick={eventHandler}>{loading ? <ImSpinner8 className="animate-spin" /> : text}</button>
     )
 }
 

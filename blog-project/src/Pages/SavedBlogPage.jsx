@@ -18,8 +18,7 @@ function SavedBlogPage(){
     useEffect(()=>{
         if(postSlice.freshSavedBlogs) return setIsLoading(false)
         databases.getAllPosts().then(data=>{
-            const currentUserId=authSlice.userData.userId ? authSlice.userData.userId : authSlice.userData.$id
-            dispatch(setSavedBlogsData({data:data.documents,fresh:true,currentId:currentUserId}))
+            dispatch(setSavedBlogsData({data:data.documents,fresh:true,currentId:authSlice.userData.userId}))
         }).finally(()=>setIsLoading(false))
     },[])
 
@@ -27,10 +26,14 @@ function SavedBlogPage(){
         databases.deletePost(slugId).then(data=>dispatch(deleteSavedBlog(slugId))).catch(error=>toast.error(error.message))
     }
 
-    function handleClick(postData){
-        const {status,title,content,$id}=postData
+    function handleEdit(postData){
+        const {status,title,content,$id,featuredImage}=postData
         navigate("/add/post/")
-        dispatch(setAddPostIntialState({status,title,content,slug:$id}))
+        dispatch(setAddPostIntialState({status,title,content,featuredImage,slug:$id}))
+    }
+
+    function handleView(postData){
+        navigate(`/post/${postData.$id}`,{state:postData})
     }
 
     if(isLoading)return<Loader></Loader>
@@ -39,9 +42,14 @@ function SavedBlogPage(){
 
     return(
         <div className="w-full max-w-full grid gap-y-8 grid-cols-3 pt-3 justify-items-center">
-        {postSlice?.savedBlogs?.map(individualPost=><div key={individualPost.$id} onClick={()=>handleClick(individualPost)} className="hover:cursor-pointer">
+        {postSlice?.savedBlogs?.map(individualPost=><div key={individualPost.$id} className="hover:cursor-pointer">
             <Button eventHandler={()=>handleDelete(individualPost.$id)} text="Delete"></Button>
-            <div className="w-[400px] h-[300px] border-4 border-black"><img className="w-full h-full object-cover"  src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title} /></div>
+            <div className="relative group w-[400px] h-[300px] border-4 border-black"><img className="w-full h-full object-cover"  src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title} />
+            <div className="absolute flex items-center justify-center gap-4 top-0 w-full h-full transition-transform duration-300 group-hover:scale-100 bg-black bg-opacity-70 scale-0">
+                <Button text="View" stylingClasses="text-white" eventHandler={()=>handleView(individualPost)}></Button>
+                <Button stylingClasses="text-white" eventHandler={()=>handleEdit(individualPost)} text="Edit"></Button>
+            </div>
+            </div>
             <div className="flex gap-2">
             </div>
             <p className="pt-2 text-center">{individualPost.title}</p>

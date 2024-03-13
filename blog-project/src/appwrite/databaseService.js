@@ -1,4 +1,4 @@
-import {Client,Databases, Query} from "appwrite"
+import {Client,Databases} from "appwrite"
 import config from "../config/config"
 
 class DataBaseSerivce{
@@ -9,7 +9,8 @@ class DataBaseSerivce{
         this.databases=new Databases(this.client)
      }
 
-     async createPost(slug,{userId,title,content,status,featuredImage}){
+     async createPost(data){
+            const [slug,{userId,title,content,status,featuredImage}]=data
             return await this.databases.createDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug,{userId,title,content,status,featuredImage})
      }
 
@@ -17,13 +18,9 @@ class DataBaseSerivce{
             return await this.databases.deleteDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug)
      }
 
-     async updatePost(slug,{title,content,status,featuredImage}){
-        try{
-           return await this.databases.updateDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug,{title,content,status,featuredImage})
-        }
-        catch(error){
-            return error
-        }
+     async updatePost(data){
+           const [slug,{userId,title,content,status,featuredImage}]=data
+           return await this.databases.updateDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug,{title,content,status,featuredImage,userId})
      }
 
      async getIndividualPost(slug){

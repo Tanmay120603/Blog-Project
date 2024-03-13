@@ -8,7 +8,8 @@ const initialState={
 const authSlice=createSlice({name:"authSlice",initialState,reducers:{
     login(state,action){
         state.loggedIn=true
-        state.userData=action.payload
+        const userId=action.payload.userId ? action.payload.userId : action.payload.$id
+        state.userData={userId}
     },
     logout(state){
         state.loggedIn=false

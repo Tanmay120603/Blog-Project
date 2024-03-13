@@ -1,9 +1,9 @@
 import QuillEditor from "react-quill"
 import "react-quill/dist/quill.snow.css"
 import { quillModules } from "../utils/constants"
-function RealTimeEditor({initialValue,eventHandler,quillRef}) {
+function RealTimeEditor({value,eventHandler}) {
   return (
-    <QuillEditor theme="snow" ref={quillRef} value={initialValue} modules={quillModules}></QuillEditor>
+    <QuillEditor theme="snow" onChange={eventHandler} value={value} modules={quillModules}></QuillEditor>
   )
 }
 
