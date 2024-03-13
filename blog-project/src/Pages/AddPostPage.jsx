@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux"
 import Input from "../Components/Input"
 import RealTimeEditor from "../Components/RealTimeEditor"
 import storageService from "../appwrite/storageService"
-import setInitialState from "../utils/initialState"
 import {addPostConstants} from "../utils/inputDataConstants" 
 import { useRef, useState } from "react"
 import {ToastContainer, toast} from "react-toastify"
@@ -10,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import databases from "../appwrite/databaseService"
 import Button from "../Components/Button"
 import { useNavigate } from "react-router-dom"
-import { setAllPostData } from "../store/postSlice"
+import { setAllPostData, setSavedBlogsData } from "../store/postSlice"
 
 function AddPostPage(){
 
@@ -18,13 +17,14 @@ function AddPostPage(){
     const imageRef=useRef()
     const quillRef=useRef()
     const [isLoading,setIsLoading]=useState(false)
-    const [enteredPostData,setEnteredPostData]=useState(setInitialState(addPostConstants))
-    const authValue=useSelector(store=>store.authSlice)
+    const {authSlice:authValue,postSlice}=useSelector(store=>store)
+    const [enteredPostData,setEnteredPostData]=useState(postSlice.addPostIntialState)
     const navigate=useNavigate()
 
     async function handleSubmit(e){
         setIsLoading(true)
-        const blogDataToSave={title:enteredPostData.title,status:enteredPostData.status,content:quillRef.current.value,userId:authValue.userData.$id}
+        const userId=authValue.userData.userId ? authValue.userData.userId : authValue.userData.$id
+        const blogDataToSave={title:enteredPostData.title,status:enteredPostData.status,content:quillRef.current.value,userId:userId}
         e.preventDefault()
         try{
             const data=await storageService.uploadFile(imageRef.current.files[0])
@@ -37,7 +37,7 @@ function AddPostPage(){
         try{
             const data=await databases.createPost(enteredPostData.slug,blogDataToSave)
             navigate(`/post/${data.$id}`,{state:data})
-            dispatch(setAllPostData({data:null,fresh:false}))
+            blogDataToSave.status==="active" ? dispatch(setAllPostData({data:null,fresh:false})) : dispatch(setSavedBlogsData({data:[],fresh:false}))
         }
         catch(e){
             return toast.error(e.message)
@@ -48,7 +48,6 @@ function AddPostPage(){
     }
 
     function handleChange(e){
-        console.log(quillRef.current.value)
         if(e.target.name==="title"){
             const slugValue=e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
             setEnteredPostData({...enteredPostData,[e.target.name]:e.target.value,slug:slugValue})
@@ -61,8 +60,8 @@ function AddPostPage(){
             <form onSubmit={handleSubmit}>
                 {addPostConstants.map(individualPost=><Input value={enteredPostData[individualPost.name]} eventHandler={handleChange} key={individualPost.id} {...individualPost}></Input>)}
                 <Input type="file" isRequired={true} label="Select Featured Image" inputRef={imageRef} name="featuredImage"></Input>
-                <RealTimeEditor quillRef={quillRef}></RealTimeEditor>
-                <select name="status" required={true} onChange={handleChange}>
+                <RealTimeEditor quillRef={quillRef} initialValue={enteredPostData.content}></RealTimeEditor>
+                <select name="status" defaultValue={enteredPostData.status} required={true} onChange={handleChange}>
                     <option value="" hidden>Please choose an option</option>
                     <option value="active">Publish to All Posts</option>
                     <option value="inactive">Save to saved blogs</option>

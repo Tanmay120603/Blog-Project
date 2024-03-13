@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux"
 import authService from "../appwrite/auth"
 import { logout } from "../store/authSlice"
+import { setSavedBlogsData } from "../store/postSlice"
 
 function LogoutButton(){
 
@@ -10,6 +11,7 @@ function LogoutButton(){
         try{
             const response=await authService.logout()
             dispatch(logout())
+            dispatch(setSavedBlogsData({data:[],fresh:false}))
         }
         catch(error){
             console.log(error)

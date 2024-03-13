@@ -6,6 +6,7 @@ import authService from "../appwrite/auth"
 import { useDispatch, useSelector } from "react-redux"
 import { login } from "../store/authSlice"
 import { useNavigate, useLocation, Navigate } from "react-router-dom"
+import Button from "../Components/Button"
 
 function LoginPage(){
 
@@ -44,7 +45,7 @@ function LoginPage(){
     return(
         <form onSubmit={handleSubmit}>
             {loginInputData.map(individualInputData=><Input key={individualInputData.id} error={errorMsg[individualInputData.errorName]} {...individualInputData} eventHandler={handleChange}></Input>)}
-            <button className="bg-black text-white px-2 py-1" disabled={isLoading}>Login</button>
+           <Button text="Login" disabled={isLoading} loading={isLoading} ></Button>
             <p className="text-red-500">{errorMsg.credentialError}</p>
         </form>    
     )

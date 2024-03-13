@@ -14,7 +14,7 @@ class AuthService{
     }
 
     async loginUser({email,password}){
-        await this.account.createEmailPasswordSession(email,password)
+       return await this.account.createEmailPasswordSession(email,password)
     }
 
     async getCurrentStateOfUser(){

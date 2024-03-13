@@ -1,4 +1,4 @@
-const loggedInNavItems=[{itemName:"Home",path:"/"},{itemName:"All Posts",path:"/posts"},{itemName:"Add Post",path:"/add/post"}]
+const loggedInNavItems=[{itemName:"Home",path:"/"},{itemName:"All Posts",path:"/posts"},{itemName:"Saved Blogs",path:"/saved/blogs"},{itemName:"Add Post",path:"/add/post"}]
 const loggedOutNavItems=[{itemName:"Home",path:"/"},{itemName:"All Posts",path:"/posts"},{itemName:"Add Post",path:"/add/post"},{itemName:"Login",path:"/login"},{itemName:"Sign Up",path:"/signup"}]
 const quillModules={
     toolbar: {
@@ -21,5 +21,5 @@ const quillModules={
     },
   }
 
-
+  
 export {loggedInNavItems,loggedOutNavItems,quillModules}

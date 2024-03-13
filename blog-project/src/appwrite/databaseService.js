@@ -14,12 +14,7 @@ class DataBaseSerivce{
      }
 
      async deletePost(slug){
-        try{
             return await this.databases.deleteDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug)
-        }
-        catch(error){
-            return error
-        }
      }
 
      async updatePost(slug,{title,content,status,featuredImage}){
@@ -32,12 +27,7 @@ class DataBaseSerivce{
      }
 
      async getIndividualPost(slug){
-        try{
-            return await this.databases.getDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug)
-        }
-        catch(error){
-            return error
-        }
+        return await this.databases.getDocument(config.appWriteDatabaseId,config.appWriteCollectionId,slug)
      }
 
      async getAllPosts(){
