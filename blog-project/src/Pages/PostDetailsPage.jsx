@@ -8,6 +8,7 @@ import { setAllPostData,setAddPostIntialState,setIndividualPostData } from "../s
 import Loader from "../Components/Loader"
 import Button from "../Components/Button"
 import { ToastContainer, toast } from "react-toastify"
+import { buttonStylingTailwindClasses } from "../utils/constants"
 
 function PostDetailsPage(){
     const postData=useLocation().state
@@ -38,17 +39,19 @@ function PostDetailsPage(){
     if(!postDetails)return<Loader></Loader>
 
     return(
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1 mt-16">
             <ToastContainer position="top-left" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false}pauseOnFocusLoss draggable pauseOnHover theme="light"></ToastContainer>
-            <div className="w-full max-w-full p-2 h-[800px]">
-            {postDetails.userId===authValue.userData.userId && <div className="flex gap-2">
-            <Button eventHandler={handleDelete} text="Delete"></Button>
-            <Button text="Edit" eventHandler={handleEdit}></Button>
+            {postDetails.userId===authValue.userData.userId && <div className="flex gap-2 self-end px-8">
+            <Button eventHandler={handleDelete} stylingClasses="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-700" text="Delete"></Button>
+            <Button text="Edit" stylingClasses="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-700" eventHandler={handleEdit}></Button>
             </div>}
+            <div className="w-full max-w-full px-8 h-[800px] relative">
             <img className="border-8 border-black w-full h-full object-cover" src={storageService.getFilePreview(postDetails.featuredImage)} alt={postDetails.title} />
             </div>
             <p className="font-bold text-[36px]">{postDetails.title}</p>
+            <div className="w-[90%] flex flex-col items-center mt-4 mb-2">
             {parse(postDetails.content)}
+            </div>
         </div>
     )
 }

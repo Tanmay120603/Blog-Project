@@ -8,6 +8,7 @@ import AddPostPage from "./Pages/AddPostPage"
 import PostDetailsPage from "./Pages/PostDetailsPage"
 import AllPostPage from "./Pages/AllPostPage"
 import SavedBlogPage from "./Pages/SavedBlogPage"
+import "./App.css"
 
 function App(){
   const router=createBrowserRouter(createRoutesFromElements(<Route path="/" element={<RootLayout></RootLayout>}>
@@ -21,7 +22,7 @@ function App(){
   </Route>))
 
   return(
-    <div>
+    <div className="h-full">
       <RouterProvider router={router}/>
     </div>
   )

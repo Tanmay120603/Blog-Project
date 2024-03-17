@@ -7,6 +7,7 @@ import storageService from "../appwrite/storageService"
 import Button from "../Components/Button"
 import { ToastContainer, toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
+import NoPostFound from "../Components/NoPostFound"
 
 function SavedBlogPage(){
 
@@ -36,12 +37,12 @@ function SavedBlogPage(){
         navigate(`/post/${postData.$id}`,{state:postData})
     }
 
-    if(isLoading)return<Loader></Loader>
+    if(isLoading)return(<div className="py-20"><Loader></Loader></div>)
 
-    if(postSlice.savedBlogs?.length==0)return<p>No Save</p>
+    if(postSlice.savedBlogs?.length==0)return<NoPostFound></NoPostFound>
 
     return(
-        <div className="w-full max-w-full grid gap-y-8 grid-cols-3 pt-3 justify-items-center">
+        <div className="w-full max-w-full grid gap-y-8 grid-cols-3 py-20 justify-items-center">
         {postSlice?.savedBlogs?.map(individualPost=><div key={individualPost.$id} className="hover:cursor-pointer">
             <Button eventHandler={()=>handleDelete(individualPost.$id)} text="Delete"></Button>
             <div className="relative group w-[400px] h-[300px] border-4 border-black"><img className="w-full h-full object-cover"  src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title} />

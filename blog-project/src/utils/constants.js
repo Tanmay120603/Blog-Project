@@ -25,4 +25,20 @@ const quillModules={
 
   const inputStylingTailwindClasses="peer w-[400px] h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-blue-500"
 
-export {loggedInNavItems,loggedOutNavItems,quillModules,inputStylingTailwindClasses,labelStylingTailwindClasses}
+  const buttonStylingTailwindClasses="w-[400px] flex justify-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+
+  const speechTones = [
+    { id:0, toneValue:"default", toneText: "Select speech tone" },
+    { id: 1, toneValue: "assertive", toneText: "Assertive" },
+    { id: 2, toneValue: "apologetic", toneText: "Apologetic" },
+    { id: 3, toneValue: "confident", toneText: "Confident" },
+    { id: 4, toneValue: "formal", toneText: "Formal" },
+    { id: 5, toneValue: "informal", toneText: "Informal" },
+    { id: 6, toneValue: "optimistic", toneText: "Optimistic" },
+    { id: 7, toneValue: "pessimistic", toneText: "Pessimistic" },
+    { id: 8, toneValue: "authoritative", toneText: "Authoritative" },
+    { id: 9, toneValue: "emotional", toneText: "Emotional" },
+    { id: 10, toneValue: "neutral", toneText: "Neutral" }
+];
+  
+export {loggedInNavItems,loggedOutNavItems,quillModules,inputStylingTailwindClasses,labelStylingTailwindClasses,buttonStylingTailwindClasses,speechTones}
