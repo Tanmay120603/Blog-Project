@@ -18,7 +18,7 @@ const postSlice=createSlice({name:"postSlice",initialState,reducers:{
         state.individualPostData=action.payload
     },
     deleteMyPost(state,action){
-        state.myPosts=state.myPosts.filter(savedBlog=>savedBlog.$id!==action.payload)   
+        state.myPosts=state.myPosts.myPostsData.filter(savedBlog=>savedBlog.$id!==action.payload)   
     },
     setAddPostIntialState(state,action){
         state.addPostIntialState=action.payload
