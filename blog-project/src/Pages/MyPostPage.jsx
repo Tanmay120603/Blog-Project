@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import databases from "../appwrite/databaseService"
 import { useDispatch, useSelector } from "react-redux"
-import { deleteMyPost, filterMyPosts, setAddPostIntialState, setMyPostsData } from "../store/postSlice"
+import { deleteMyPost, filterMyPosts, setAddPostIntialState, setAllPostData, setMyPostsData } from "../store/postSlice"
 import Loader from "../Components/Loader"
 import storageService from "../appwrite/storageService"
 import Button from "../Components/Button"
@@ -29,7 +29,10 @@ function MyPostPage(){
     },[])
 
     function handleDelete(slugId){
-        databases.deletePost(slugId).then(data=>dispatch(deleteMyPost(slugId))).catch(error=>toast.error(error.message))
+        databases.deletePost(slugId).then(data=>{
+            dispatch(deleteMyPost(slugId))
+            dispatch(setAllPostData({data:[],fresh:false}))
+        }).catch(error=>toast.error(error.message))
     }
 
     function handleEdit(postData){
