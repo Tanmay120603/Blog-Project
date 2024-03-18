@@ -1,6 +1,6 @@
 import { useState } from "react"
 import Button from "./Button"
-import { buttonStylingTailwindClasses, speechTones } from "../utils/constants"
+import { speechTones } from "../utils/constants"
 import getGptResponse from "../utils/getGptResponse"
 import getQuery from "../utils/getQuery"
 import { toast,ToastContainer } from "react-toastify"
@@ -66,7 +66,7 @@ function AssistanceModal({currentPostData,setShowModal}){
         </>
         }
 
-    <Button text="Generate" eventHandler={handleClick} loading={isLoading} stylingClasses={buttonStylingTailwindClasses+" w-3/4"}></Button>
+    <Button text="Generate" eventHandler={handleClick} loading={isLoading} stylingClasses="w-3/4 flex justify-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"></Button>
     {generatedResponse && <div className="w-full max-w-full flex justify-center items-center gap-5 font-poppins font-semibold text-blue-800">
         Your response has been generated
         <button onClick={()=>navigator.clipboard.writeText(generatedResponse)} className="border border-blue-500 rounded py-2 px-4 hover:bg-blue-800 hover:text-white">Copy</button>
