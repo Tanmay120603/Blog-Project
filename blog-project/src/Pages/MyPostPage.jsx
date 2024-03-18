@@ -78,17 +78,15 @@ function MyPostPage(){
         </div>
     </div>
         <div className="w-full max-w-full mt-10 grid grid-cols-1 gap-y-3 md:grid-cols-2 md:gap-y-6 xl:gap-y-8 xl:grid-cols-3 justify-items-center">
-        {filteredPostData.map(individualPost=><div key={individualPost.$id} className="hover:cursor-pointer">
-            <div className="relative group w-[320px] md:w-[400px] h-[220px] md:h-[300px] border-4 border-black"><img className="w-full h-full object-cover"  src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title} />
-            <div className="absolute flex items-center justify-center gap-4 top-0 w-full h-full transition-transform duration-300 group-hover:scale-100 bg-black bg-opacity-70 scale-0">
-            <Button eventHandler={()=>handleDelete(individualPost.$id)} stylingClasses="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 absolute top-0 right-0" text="X"></Button>
-                <Button text="View" stylingClasses="border border-blue-500 text-white rounded py-2 px-10 hover:bg-blue-700" eventHandler={()=>handleView(individualPost)}></Button>
-                <Button stylingClasses="border border-blue-500 text-white rounded py-2 px-10 hover:bg-blue-700" eventHandler={()=>handleEdit(individualPost)} text="Edit"></Button>
+        {filteredPostData.map(individualPost=><div key={individualPost.$id} className="flex flex-col gap-2">
+            <div className="w-[320px] md:w-[400px] h-[220px] md:h-[300px] border-4 border-black"><img className="w-full h-full object-cover"  src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title} />
             </div>
-            </div>
-            <div className="flex gap-2">
-            </div>
-            <p className="pt-2 text-center">{individualPost.title}</p>
+            <div className="w-full max-w-full flex justify-between">
+            <Button eventHandler={()=>handleDelete(individualPost.$id)} stylingClasses="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700" text="Delete"></Button>
+                <Button text="View" stylingClasses="text-white rounded py-2 px-10 bg-blue-700 hover:bg-blue-900" eventHandler={()=>handleView(individualPost)}></Button>
+                <Button stylingClasses="text-white rounded py-2 px-10 bg-blue-700 hover:bg-blue-900" eventHandler={()=>handleEdit(individualPost)} text="Edit"></Button>
+                </div>
+                <p className="pt-2 text-center">{individualPost.title}</p>
         </div>)}
         <ToastContainer position="top-left" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false}pauseOnFocusLoss draggable pauseOnHover theme="light"></ToastContainer>
     </div>
