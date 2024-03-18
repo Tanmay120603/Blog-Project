@@ -5,6 +5,7 @@ import {Outlet} from "react-router-dom"
 import authService from "../appwrite/auth"
 import { useDispatch } from "react-redux"
 import { login } from "../store/authSlice"
+import Spinner from "../Components/Spinner"
 
 function RootLayout(){
 
@@ -16,7 +17,7 @@ function RootLayout(){
     },[])
 
     if(isLoading){
-        return <div>Loading...</div>
+        return <Spinner></Spinner>
     }
 
     return(

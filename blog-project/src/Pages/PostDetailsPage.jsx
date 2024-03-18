@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import databases from "../appwrite/databaseService"
 import { useDispatch, useSelector } from "react-redux"
 import { setIndividualPostData } from "../store/postSlice"
-import Loader from "../Components/Loader"
+import Spinner from "../Components/Spinner"
 
 function PostDetailsPage(){
     const postData=useLocation().state
@@ -19,7 +19,7 @@ function PostDetailsPage(){
         else databases.getIndividualPost(postSlug.slug).then(data=>dispatch(setIndividualPostData(data)))
     },[])
 
-    if(!postDetails)return<Loader></Loader>
+    if(!postDetails)return<Spinner></Spinner>
 
     return(
         <div className="flex flex-col items-center gap-1 mt-16">
