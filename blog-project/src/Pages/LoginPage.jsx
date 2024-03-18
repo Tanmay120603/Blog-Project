@@ -45,7 +45,7 @@ function LoginPage(){
 
     return(
         <section className="bg-gray-50 dark:bg-gray-900">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
             <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
                 Blogsite    
@@ -57,7 +57,7 @@ function LoginPage(){
                     </h1>
                     <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>                    
                         {loginInputData.map(individualInputData=><Input key={individualInputData.id} error={errorMsg[individualInputData.errorName]} {...individualInputData} eventHandler={handleChange}></Input>)}
-                        <Button text="Login" disabled={isLoading} stylingClasses={buttonStylingTailwindClasses} loading={isLoading} ></Button>
+                        <Button text="Login" disabled={isLoading} stylingClasses={buttonStylingTailwindClasses+" w-[100%]"} loading={isLoading} ></Button>
                         <p className="text-red-500">{errorMsg.credentialError}</p>
                         <p className="text-sm font-light font-poppins text-gray-500 dark:text-gray-400">
                         Don't have an account? <Link className="font-medium text-blue-600 hover:underline dark:text-primary-500" to="/signup">Signup here</Link>

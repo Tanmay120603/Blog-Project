@@ -13,7 +13,7 @@ function AllPostPage(){
     const dispatch=useDispatch()
     const postSliceData=useSelector(store=>store.postSlice)
     useEffect(()=>{
-        if(postSliceData.freshAllPosts) return setIsLoading(false)
+        if(postSliceData.allPosts.freshAllPosts) return setIsLoading(false)
         databases.getAllPosts().then(data=>{
         const filteredData=data.documents.filter(individualData=>individualData.status==="active")
         dispatch(setAllPostData({data:filteredData,fresh:true}))
@@ -24,11 +24,11 @@ function AllPostPage(){
         return (<div className="py-20"><Loader></Loader></div>)
     }
 
-    if(postSliceData.allPostData?.length==0)return<NoPostFound></NoPostFound>
+    if(postSliceData.allPosts.allPostData.length==0)return<NoPostFound></NoPostFound>
 
     return(
-        <div className="w-full max-w-full grid gap-y-8 grid-cols-3 py-20 justify-items-center">
-            {postSliceData?.allPostData?.map(individualPost=><Link key={individualPost.$id} to={`/post/${individualPost.$id}`} state={individualPost}><div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full max-w-full grid-cols-1 grid gap-y-8 xl:grid-cols-3 lg:grid-cols-2 py-20 justify-items-center">
+            {postSliceData.allPosts.allPostData.map(individualPost=><Link key={individualPost.$id} to={`/post/${individualPost.$id}`} state={individualPost}><div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
            <div className="max-w-sm h-[200px] hover:cursor-pointer">
                <img className="rounded-t-lg w-full h-full object-cover" src={storageService.getFilePreview(individualPost.featuredImage)} alt={individualPost.title}/>
            </div>

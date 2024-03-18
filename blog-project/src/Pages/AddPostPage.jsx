@@ -10,7 +10,7 @@ import databases from "../appwrite/databaseService"
 import Button from "../Components/Button"
 import { useNavigate } from "react-router-dom"
 import Compressor from 'compressorjs'
-import { setAddPostIntialState, setAllPostData, setSavedBlogsData } from "../store/postSlice"
+import { setAddPostIntialState, setAllPostData, setMyPostsData} from "../store/postSlice"
 import AssistanceModal from "../Components/AssistanceModal"
 
 function AddPostPage(){
@@ -49,7 +49,7 @@ function AddPostPage(){
             const data=await databaseOperation.call(databases,[enteredPostData.slug,blogDataToSave])
             navigate(`/post/${data.$id}`,{state:data})
             dispatch(setAllPostData({data:null,fresh:false}))
-            dispatch(setSavedBlogsData({data:[],fresh:false}))
+            dispatch(setMyPostsData({data:[],fresh:false}))
         }
         catch(e){
             return toast.error(e.message)
@@ -82,25 +82,25 @@ function AddPostPage(){
     return(
         <div>
             {showModal && <AssistanceModal currentPostData={enteredPostData} setShowModal={setShowModal}></AssistanceModal>}
-            <form onSubmit={handleSubmit} className="h-[90vh] mt-[10vh] grid grid-cols-3 gap-10">
-                <div className="h-full max-h-full col-span-2 flex flex-col gap-4 ml-5">
+            <form onSubmit={handleSubmit} className="h-[90vh] mt-[10vh] gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4 xl:gap-10">
+                <div className="md:h-full md:max-h-full h-1/2 lg:col-span-2 flex flex-col gap-4 mx-2 xl:ml-5">
                 {!postSlice.addPostIntialState.slug &&
-                addPostConstants.map(individualPost=><Input value={enteredPostData[individualPost.name]} labelStyling="-order-1 font-semibold" eventHandler={handleChange} key={individualPost.id} inputStyling="p-2 border border-blue-500 rounded focus:outline-blue-800 font-poppins" {...individualPost}></Input>)
+                addPostConstants.map(individualPost=><Input value={enteredPostData[individualPost.name]} labelStyling="-order-1 font-semibold w-[100%]" eventHandler={handleChange} key={individualPost.id} inputStyling="p-2 border border-blue-500 rounded focus:outline-blue-800 font-poppins w-[100%]" {...individualPost}></Input>)
                 }
-                <RealTimeEditor editorStyling="h-[60%] w-[100%]" eventHandler={handleChange} value={enteredPostData.content}></RealTimeEditor>
+                <RealTimeEditor editorStyling="h-fit w-[100%]" eventHandler={handleChange} value={enteredPostData.content}></RealTimeEditor>
                 </div>
-                <div className="h-full max-h-full flex flex-col gap-4 items-start">
-                <Input type="file" labelStyling="-order-1 font-semibold" inputStyling="p-2 border border-blue-500 rounded focus:outline-blue-800 font-poppins" eventHandler={handleCompression} isRequired={true} label="Choose Image" name="featuredImage"></Input>
+                <div className="flex flex-col gap-4 items-center lg:items-start">
+                <Input type="file" labelStyling="-order-1 font-semibold self-center md:self-start" inputStyling="p-2 self-center md:self-start border border-blue-500 rounded focus:outline-blue-800 font-poppins" eventHandler={handleCompression} isRequired={true} label="Choose Image" name="featuredImage"></Input>
                 <select name="status" className="p-2 w-[75%] border border-blue-500 rounded focus:outline-blue-800 font-poppins" defaultValue={enteredPostData.status} required={true} onChange={handleChange}>
                     <option value="" hidden>Please choose an option</option>
                     <option value="active">Publish to All Posts</option>
                     <option value="inactive">Save to saved blogs</option>
                 </select>
-                <Button disabled={isLoading} stylingClasses="w-[75%] text-center font-poppins border border-blue-500 rounded py-2 hover:bg-blue-800 hover:text-white" loading={isLoading} text="Submit"></Button>
+                <Button disabled={isLoading} stylingClasses="w-[75%] flex justify-center font-poppins border border-blue-500 rounded py-2 hover:bg-blue-800 hover:text-white" loading={isLoading} text="Submit"></Button>
+                <span className="py-1 px-2 rounded hover:bg-blue-800 hover:text-white border border-blue-500 font-poppins" onClick={()=>setShowModal(true)}>Need Ai Assistance</span>
                 </div>
             </form>
             <ToastContainer position="top-left" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false}pauseOnFocusLoss draggable pauseOnHover theme="light"></ToastContainer>
-            <button className=" fixed bottom-10 right-10 py-1 px-2 rounded hover:bg-blue-800 hover:text-white border border-blue-500 font-poppins" onClick={()=>setShowModal(true)}>Need Ai Assistance</button>
         </div>
     )   
 }

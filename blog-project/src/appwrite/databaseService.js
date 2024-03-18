@@ -1,4 +1,4 @@
-import {Client,Databases} from "appwrite"
+import {Client,Databases, Query} from "appwrite"
 import config from "../config/config"
 
 class DataBaseSerivce{

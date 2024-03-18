@@ -1,7 +1,7 @@
 function Loader(){
 
 return(
-<div className="grid grid-cols-3 w-full max-w-full gap-y-4 justify-items-center">
+<div className="grid xl:grid-cols-3 grid-cols-1 md:grid-cols-2 w-full max-w-full gap-y-4 justify-items-center">
 <div role="status" className="max-w-sm lg:w-[400px] p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700">
     <div className="flex items-center justify-center h-48 mb-4 bg-gray-300 rounded dark:bg-gray-700">
         <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">

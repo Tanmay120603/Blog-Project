@@ -1,28 +1,31 @@
 import {createSlice} from "@reduxjs/toolkit"
 
-const initialState={allPostData:null,freshAllPosts:false,savedBlogs:null,freshSavedBlogs:false,individualPostData:null,addPostIntialState:{title:"",content:"",status:"",slug:""}}
+const initialState={allPosts:{allPostData:[],freshAllPosts:false},myPosts:{myPostsData:[],freshMyPosts:false,filterBy:{status:"none"}},individualPostData:null,addPostIntialState:{title:"",content:"",status:"",slug:""}}
 
 const postSlice=createSlice({name:"postSlice",initialState,reducers:{
     setAllPostData(state,action){
-        state.allPostData=action.payload.data
-        state.freshAllPosts=action.payload.fresh
+        state.allPosts.allPostData=action.payload.data
+        state.allPosts.freshAllPosts=action.payload.fresh
     },
-    setSavedBlogsData(state,action){
-        state.savedBlogs=action.payload.data.filter(individualData=>individualData.status==="inactive" && individualData.userId===action.payload.currentId)
-        state.freshSavedBlogs=action.payload.fresh
+    setMyPostsData(state,action){
+        state.myPosts.myPostsData=action.payload.data.filter(individualData=>individualData.userId===action.payload.currentId)
+        state.myPosts.freshMyPosts=action.payload.fresh
+    },
+    filterMyPosts(state,action){
+        state.myPosts.filterBy=action.payload
     },
     setIndividualPostData(state,action){
         state.individualPostData=action.payload
     },
-    deleteSavedBlog(state,action){
-        state.savedBlogs=state.savedBlogs.filter(savedBlog=>savedBlog.$id!==action.payload)   
+    deleteMyPost(state,action){
+        state.myPosts=state.myPosts.filter(savedBlog=>savedBlog.$id!==action.payload)   
     },
     setAddPostIntialState(state,action){
         state.addPostIntialState=action.payload
-    }
+    },
 }})
 
-export const {setAllPostData,setSavedBlogsData,setIndividualPostData,deleteSavedBlog,setAddPostIntialState}=postSlice.actions
+export const {setAllPostData,setMyPostsData,filterMyPosts,setIndividualPostData,deleteMyPost,setAddPostIntialState}=postSlice.actions
 
 const postReducer=postSlice.reducer
 

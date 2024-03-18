@@ -30,7 +30,7 @@ function AssistanceModal({currentPostData,setShowModal}){
     return(   
         <>   
         <div className=" w-full max-w-full h-[100vh] flex justify-center items-center absolute top-0">
-            <div className="w-[40%] h-[60%] flex flex-col items-center gap-5 bg-white relative z-20 border-2 border-blue-500 rounded">
+            <div className="xl:w-[40%] xl:h-[60%] md:w-[80%] md:h-[50%] lg:w-[50%] lg:h-[80%] w-[95%] h-[80%] flex flex-col items-center gap-5 bg-white relative z-20 border-2 border-blue-500 rounded">
                 <button className="self-end mr-6 mt-2 text-lg border border-red-500 rounded px-4 py-1 hover:bg-red-500 hover:text-white" onClick={()=>setShowModal(false)}>X</button>
                 <div className="flex flex-col gap-2">
                 <label htmlFor="enhancementField">Which field you want to improve using AI</label>
@@ -60,13 +60,13 @@ function AssistanceModal({currentPostData,setShowModal}){
         <select id="tone" name="contentTone" onChange={handleChange}> 
         {speechTones.map(speechTone=><option hidden={speechTone.toneValue=="default"} key={speechTone.id} value={speechTone.toneValue}>{speechTone.toneText}</option>)}
         </select>
-        <input onChange={handleChange} type="text" name="contentKeywords" placeholder="Select the proper keyword" className="w-[50%]"/>
+        <input onChange={handleChange} type="text" name="contentKeywords" placeholder="Enter Keywords" className="w-[50%]"/>
         </div>
         <textarea id="message" name="contentRelatedTopic" rows="4" className="block p-2.5 w-[80%] text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleChange} placeholder="Enter the topic related to which you want to generate content"></textarea>
         </>
         }
 
-    <Button text="Generate" eventHandler={handleClick} loading={isLoading} stylingClasses={buttonStylingTailwindClasses}></Button>
+    <Button text="Generate" eventHandler={handleClick} loading={isLoading} stylingClasses={buttonStylingTailwindClasses+" w-3/4"}></Button>
     {generatedResponse && <div className="w-full max-w-full flex justify-center items-center gap-5 font-poppins font-semibold text-blue-800">
         Your response has been generated
         <button onClick={()=>navigator.clipboard.writeText(generatedResponse)} className="border border-blue-500 rounded py-2 px-4 hover:bg-blue-800 hover:text-white">Copy</button>
