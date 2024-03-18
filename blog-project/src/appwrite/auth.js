@@ -10,7 +10,7 @@ class AuthService{
     }
 
     async createUser({email,password,userName}){
-           return await this.account.create(ID.unique(),email,password,userName)
+           return await this.account.create(ID.unique(),email,password,userName).then(()=>this.account.createEmailPasswordSession(email,password)).catch((e)=>Promise.reject(e))
     }
 
     async loginUser({email,password}){
