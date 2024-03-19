@@ -97,7 +97,7 @@ function AddPostPage(){
                     <option value="inactive">Save to saved blogs</option>
                 </select>
                 <Button disabled={isLoading} stylingClasses="w-[75%] flex justify-center font-poppins border border-blue-500 rounded py-2 hover:bg-blue-800 hover:text-white" loading={isLoading} text="Submit"></Button>
-                <span className="py-1 px-2 rounded hover:bg-blue-800 hover:text-white border border-blue-500 font-poppins" onClick={()=>setShowModal(true)}>Need Ai Assistance</span>
+                <span className="py-1 hover:cursor-pointer px-2 rounded hover:bg-blue-800 hover:text-white border border-blue-500 font-poppins" onClick={()=>setShowModal(true)}>Need Ai Assistance</span>
                 </div>
             </form>
             <ToastContainer position="top-left" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false}pauseOnFocusLoss draggable pauseOnHover theme="light"></ToastContainer>

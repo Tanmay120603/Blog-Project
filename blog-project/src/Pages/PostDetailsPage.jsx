@@ -26,8 +26,8 @@ function PostDetailsPage(){
             <div className="lg:w-full lg:max-w-full px-4 md:px-6 lg:px-8 lg:h-[700px] relative">
             <img className="border-8 border-black w-full h-full object-cover" src={storageService.getFilePreview(postDetails.featuredImage)} alt={postDetails.title} />
             </div>
-            <p className="font-bold text-[36px]">{postDetails.title}</p>
-            <div className="w-[90%] break-all text-justify flex flex-col items-center mt-4 mb-2">
+            <p className="font-bold text-[36px] text-center">{postDetails.title}</p>
+            <div className="w-[90%] whitespace-pre-wrap break-words text-justify flex flex-col items-center mt-4 mb-2">
             {parse(postDetails.content)}
             </div>
         </div>

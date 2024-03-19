@@ -67,9 +67,13 @@ function AssistanceModal({currentPostData,setShowModal}){
         }
 
     <Button text="Generate" eventHandler={handleClick} loading={isLoading} stylingClasses="w-3/4 flex justify-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"></Button>
-    {generatedResponse && <div className="w-full max-w-full flex justify-center items-center gap-5 font-poppins font-semibold text-blue-800">
+    {generatedResponse && <div className="w-full max-w-full flex justify-center items-center gap-2 md:gap-5 font-poppins font-semibold text-blue-800">
         Your response has been generated
-        <button onClick={()=>navigator.clipboard.writeText(generatedResponse)} className="border border-blue-500 rounded py-2 px-4 hover:bg-blue-800 hover:text-white">Copy</button>
+        <button onClick={(e)=>{
+            e.target.textContent="Copied"
+            setTimeout(()=>e.target.textContent="Copy",1000)
+            navigator.clipboard.writeText(generatedResponse)
+            }} className="border border-blue-500 rounded py-2 px-4 hover:bg-blue-800 hover:text-white">Copy</button>
     </div>}
     <ToastContainer position="bottom-left" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false}pauseOnFocusLoss draggable pauseOnHover theme="dark"></ToastContainer>
     </div>
